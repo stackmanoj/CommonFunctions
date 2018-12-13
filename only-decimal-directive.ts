@@ -31,6 +31,12 @@ export class OnlyDecimal {
             return;
         }
     }
+    
+    @HostListener('paste', ['$event'])
+    onPaste(event: any) {
+        event.key = event.clipboardData.getData('Text');
+        this.onInput(event);
+    }
 }
 export class OnlyDecimalParams {
     maxDigitsBeforeDot: number;
