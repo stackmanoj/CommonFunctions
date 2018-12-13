@@ -31,7 +31,6 @@ export class OnlyDecimal {
             return;
         }
     }
-    
     @HostListener('paste', ['$event'])
     onPaste(event: any) {
         event.key = event.clipboardData.getData('Text');
