@@ -9,16 +9,16 @@ export class OnlyNumber {
 
   @Input() OnlyNumber: boolean;
 
-  @HostListener('input', ['$event'])
+  @HostListener('keypress', ['$event'])
   onInput(event: any) {
-    if (isNaN(parseInt(event.data))) {
+    if (isNaN(parseInt(event.key))) {
       event.preventDefault();
     }
   }
 
   @HostListener('paste', ['$event'])
   onPaste(event: any) {
-    event.data = event.clipboardData.getData('Text');
+    event.key = event.clipboardData.getData('Text');
     this.onInput(event);
   }
 }
