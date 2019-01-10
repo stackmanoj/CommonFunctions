@@ -4,6 +4,9 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
     selector: '[OnlyDecimal]'
 })
 export class OnlyDecimal {
+    allowedKeys = [
+        'Backspace', 'ArrowLeft', 'ArrowRight', 'Escape', 'Tab', 'Delete', 'Home', 'End'
+    ];
 
     constructor(private el: ElementRef) { }
 
@@ -11,6 +14,16 @@ export class OnlyDecimal {
 
     @HostListener('keypress', ['$event'])
     onInput(event: any) {
+        let key: string = event.key;
+        let controlOrCommand = (event.ctrlKey === true || event.metaKey === true);
+        if (this.allowedKeys.indexOf(key) != -1 ||
+            (key == 'a' && controlOrCommand) ||
+            (key == 'c' && controlOrCommand) ||
+            (key == 'v' && controlOrCommand) ||
+            (key == 'x' && controlOrCommand)) {
+            return true;
+        }
+
         let text = (<HTMLInputElement>event.currentTarget).value;
         if (event.key != '.' && isNaN(parseInt(event.key))) {
             event.preventDefault();
