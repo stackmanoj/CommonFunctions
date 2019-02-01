@@ -14,6 +14,7 @@
  </div>
 
 <script type="text/javascritp">
+   //Common method for managing common bootstrap modal
    Modal: {
         Open: function (header, body, actions, okCallback, cancelCallback, validationCallback) {
             this.Close();
@@ -62,4 +63,23 @@
             $('#common-model').modal('hide');
         }
     }
+    
+    
+    //usages
+    var popupHtml = '<ul class="list-unstyled ean-items">';
+    popupHtml += '<li><label><input type="radio" name="ean-item" value="1"/> One</label></li>';
+    popupHtml += '<li><label><input type="radio" name="ean-item" value="2"/> Two</label></li>';
+    popupHtml += '</ul>';
+    Modal.Open('Select Item', popupHtml, 'OkCancel', function () {
+        console.log('ok')
+    }, function () {
+        console.log('cancel')
+    }, function () {
+        var checkedItems = $('input[name="ean-item"]:checked').val();
+        if (checkedItems) {
+            return true;
+        }
+        alert('Please select item code.');
+        return false;
+    });
 </script>
