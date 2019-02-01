@@ -1,15 +1,65 @@
  <div class="modal fade common-model" id="common-model" role="dialog"data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" id="common-model-header">
-                    </div>
-                    <div class="modal-body" id="common-model-body">
-                    </div>
-                    <div class="modal-footer" id="common-model-footer">
-                        <button class="btn btn-primary ok">OK</button>
-                        <button class="btn btn-warning cancel">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header" id="common-model-header">
+             </div>
+             <div class="modal-body" id="common-model-body">
+             </div>
+             <div class="modal-footer" id="common-model-footer">
+                 <button class="btn btn-primary ok">OK</button>
+                 <button class="btn btn-warning cancel">Cancel</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
+<script type="text/javascritp">
+   Modal: {
+        Open: function (header, body, actions, okCallback, cancelCallback, validationCallback) {
+            this.Close();
+            $('#common-model-header').html(header);
+            $('#common-model-body').html(body);
+            $('#common-model-footer').hide();
+            if (actions) {
+                $('#common-model-footer').find('.ok').hide();
+                $('#common-model-footer').find('.cancel').hide();
+                if (actions.toLowerCase().indexOf('ok') > -1) {
+                    $('#common-model-footer').find('.ok').show();
+                }
+                if (actions.toLowerCase().indexOf('cancel') > -1) {
+                    $('#common-model-footer').find('.cancel').show();
+                }
+                if (actions.toLowerCase().indexOf('ok') > -1 || actions.toLowerCase().indexOf('cancel') > -1) {
+                    $('#common-model-footer').show();
+                }
+            }
+            $this = this;
+            $('#common-model-footer').find('.ok').off("click").on("click", function () {
+                var closable = false;
+                if (validationCallback) {
+                    if (validationCallback()) {
+                        $this.Close();
+                        closable = true;
+                    }
+                }
+                else {
+                    $this.Close();
+                    closable = true;
+                }
+                if (closable && okCallback) {
+                    okCallback();
+                }
+            });
+            $('#common-model-footer').find('.cancel').off("click").on("click", function () {
+                $this.Close();
+                if (cancelCallback) {
+                    cancelCallback();
+                }
+            });
+            $('#common-model').modal('show');
+        },
+        Close: function () {
+            $('#common-model').modal('hide');
+        }
+    }
+</script>
