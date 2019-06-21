@@ -1,0 +1,5 @@
+Find by regex
+Request.QueryString\[(\".+?\")\]
+
+Replace with
+Request.SecuredQueryString($1)
